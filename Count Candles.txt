@@ -1,0 +1,74 @@
+//@version=3
+study("Luis Count", "LC", true)
+ 
+src = input(close, "Source")
+bb = input(true, "Contador debajo de barras")
+ab = input(false, "Contador arriba de barras")
+ 
+// === CREA LA VENTANA DE ENTRADA QUE PERMITE INTRODUCIR FECHAS ESPECÍFICAS PARA EL PRUEBA DE ESTRATEGIA ===
+FromDay   = input(defval = 1, title = "From Day", minval = 1, maxval = 31)
+FromMonth = input(defval = 6, title = "From Month", minval = 1, maxval = 12)
+FromYear  = input(defval = 1980, title = "From Year", minval = 1980)
+ToDay     = input(defval = 19, title = "To Day", minval = 1, maxval = 31)
+ToMonth   = input(defval = 6, title = "To Month", minval = 1, maxval = 12)
+ToYear    = input(defval = 2019, title = "To Year", minval = 2010)
+ 
+start     = timestamp(FromYear, FromMonth, FromDay, 00, 00)  // backtest start window
+finish    = timestamp(ToYear, ToMonth, ToDay, 23, 59)        // backtest finish window
+startTimeOk()  => time >= start and time <= finish ? true : false // create function "within window of time" if statement true
+ 
+ 
+same = close > open and close[1] > open[1] or close < open and close[1] < open[1]
+diff = close > open and close[1] < open[1] or close < open and close[1] > open[1]
+max_similar_candles = input(title="max number similar candles", defval=9, minval=1, maxval=16)
+min_similar_candles = input(title="min number similar candles", defval=1, minval=1, maxval=9)
+ct() =>
+    count = na
+    if not startTimeOk()
+        count := na
+    else
+        if nz(count[1]) == max_similar_candles and not same
+            count := 1
+        else
+            if same
+                count := nz(count[1])
+            else
+                if diff
+                    count := nz(count[1]) + 1
+                else
+                    count := nz(count[1])
+
+
+plotchar(bb and ct() == 1, location = location.belowbar, color = color(white, 000), textcolor = color(black, 000), text = "1") 
+plotchar(bb and ct() == 2, location = location.belowbar, color = color(white, 000), textcolor = color(black, 000), text = "2") 
+plotchar(bb and ct() == 3, location = location.belowbar, color = color(white, 000), textcolor = color(black, 000), text = "3") 
+plotchar(bb and ct() == 4, location = location.belowbar, color = color(white, 000), textcolor = color(black, 000), text = "4") 
+plotchar(bb and ct() == 5, location = location.belowbar, color = color(white, 000), textcolor = color(black, 000), text = "5") 
+plotchar(bb and ct() == 6, location = location.belowbar, color = color(white, 100), textcolor = color(black, 000), text = "6") 
+plotchar(bb and ct() == 7, location = location.belowbar, color = color(white, 100), textcolor = color(black, 000), text = "7") 
+plotchar(bb and ct() == 8, location = location.belowbar, color = color(white, 100), textcolor = color(black, 000), text = "8") 
+plotchar(bb and ct() == 9, location = location.belowbar, color = color(white, 100), textcolor = color(black, 000), text = "9")
+plotchar(bb and ct() == 10, location = location.belowbar, color = color(white, 100), textcolor = color(black, 000), text = "10")
+plotchar(bb and ct() == 11, location = location.belowbar, color = color(white, 100), textcolor = color(black, 000), text = "11")
+plotchar(bb and ct() == 12, location = location.belowbar, color = color(white, 100), textcolor = color(black, 000), text = "12")
+plotchar(bb and ct() == 13, location = location.belowbar, color = color(white, 100), textcolor = color(black, 000), text = "13")
+plotchar(bb and ct() == 14, location = location.belowbar, color = color(white, 100), textcolor = color(black, 000), text = "14")
+plotchar(bb and ct() == 15, location = location.belowbar, color = color(white, 100), textcolor = color(black, 000), text = "15")
+plotchar(bb and ct() == 16, location = location.belowbar, color = color(white, 100), textcolor = color(black, 000), text = "16") 
+ 
+plotchar(ab and ct() == 1, location = location.abovebar, color = color(white, 000), textcolor = color(black, 000), text = "1") 
+plotchar(ab and ct() == 2, location = location.abovebar, color = color(white, 000), textcolor = color(black, 000), text = "2") 
+plotchar(ab and ct() == 3, location = location.abovebar, color = color(white, 000), textcolor = color(black, 000), text = "3") 
+plotchar(ab and ct() == 4, location = location.abovebar, color = color(white, 000), textcolor = color(black, 000), text = "4") 
+plotchar(ab and ct() == 5, location = location.abovebar, color = color(white, 000), textcolor = color(black, 000), text = "5") 
+plotchar(ab and ct() == 6, location = location.abovebar, color = color(white, 100), textcolor = color(black, 000), text = "6") 
+plotchar(ab and ct() == 7, location = location.abovebar, color = color(white, 100), textcolor = color(black, 000), text = "7") 
+plotchar(ab and ct() == 8, location = location.abovebar, color = color(white, 100), textcolor = color(black, 000), text = "8") 
+plotchar(ab and ct() == 9, location = location.abovebar, color = color(white, 100), textcolor = color(black, 000), text = "9")
+plotchar(ab and ct() == 10, location = location.abovebar, color = color(white, 100), textcolor = color(black, 000), text = "10")
+plotchar(ab and ct() == 11, location = location.abovebar, color = color(white, 100), textcolor = color(black, 000), text = "11")
+plotchar(ab and ct() == 12, location = location.abovebar, color = color(white, 100), textcolor = color(black, 000), text = "12")
+plotchar(ab and ct() == 13, location = location.abovebar, color = color(white, 100), textcolor = color(black, 000), text = "13")
+plotchar(ab and ct() == 14, location = location.abovebar, color = color(white, 100), textcolor = color(black, 000), text = "14")
+plotchar(ab and ct() == 15, location = location.abovebar, color = color(white, 100), textcolor = color(black, 000), text = "15")
+plotchar(ab and ct() == 16, location = location.abovebar, color = color(white, 100), textcolor = color(black, 000), text = "16")
